@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 urlextract.py - file with definition of URLExtract class
@@ -12,9 +12,8 @@ import os
 import re
 import string
 import sys
-import urllib.request
+import urllib2
 from datetime import datetime, timedelta
-from urllib.error import URLError, HTTPError
 
 import idna
 import uritools
@@ -93,7 +92,7 @@ class URLExtract:
             print("ERROR: Cached file is not readable for current user. ({})".format(self._tld_list_path))
         else:
             self._tlds = sorted(self._load_cached_tlds(), key=len, reverse=True)
-            self._tlds_re = re.compile('|'.join([re.escape(str(tld)) for tld in self._tlds]))
+            self._tlds_re = re.compile('|'.join([re.escape(unicode(tld)) for tld in self._tlds]))
 
     def _download_tlds_list(self):
         """
@@ -109,17 +108,15 @@ class URLExtract:
             print("ERROR: Cache file is not writable for current user. ({})".format(self._tld_list_path))
             return False
 
-        req = urllib.request.Request(url_list)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0')
         with open(self._tld_list_path, 'w') as ftld:
             try:
-                with urllib.request.urlopen(req) as f:
-                    page = f.read().decode('utf-8')
-                    ftld.write(page)
-            except HTTPError as e:
+                f = urllib2.urlopen(url_list)
+                page = f.read().decode('utf-8')
+                ftld.write(page)
+            except urllib2.HTTPError as e:
                 print("ERROR: Can not download list ot TLDs. (HTTPError: {})".format(e.reason))
                 return False
-            except URLError as e:
+            except urllib2.URLError as e:
                 print("ERROR: Can not download list ot TLDs. (URLError: {})".format(e.reason))
                 return False
         return True

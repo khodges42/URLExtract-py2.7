@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 setup for urlextract
@@ -23,17 +23,16 @@ def read(readme):
     return open(os.path.join(script_dirname, readme)).read()
 
 setup(
-    name='urlextract',
+    name='urlextract-py2.7',
     version=__VERSION__,
     py_modules=['urlextract', 'version'],
-    scripts=['bin/urlextract'],
     keywords=['url', 'extract', 'find', 'finder', 'collect', 'link', 'tld', 'list'],
-    url='https://github.com/lipoja/URLExtract',
+    url='https://github.com/penafieljlm/URLExtract-py2.7',
     license='MIT',
-    author='Jan Lipovský',
-    author_email='janlipovsky@gmail.com',
-    description='Collects and extracts URLs from given text.',
-    long_description=read('README.rst'),
+    author='John Lawrence M. Penafiel',
+    author_email='penafieljlm@gmail.com',
+    description='Collects and extracts URLs from given text. Forked from https://pypi.python.org/pypi/urlextract.',
+    long_description='Collects and extracts URLs from given text. Forked from https://pypi.python.org/pypi/urlextract.',
     classifiers=["Development Status :: 4 - Beta",
                  "Intended Audience :: Developers",
                  "License :: OSI Approved :: MIT License",
